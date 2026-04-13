@@ -1,34 +1,45 @@
-# Import BaseModel from pydantic for creating data models with validation
-from pydantic import BaseModel
+from typing import List, Dict, Optional
+from pydantic import BaseModel, EmailStr
 
-# Define a Patient model with name (string) and age (integer) fields
 class Patient(BaseModel):
     name: str
+    email: EmailStr
     age: int
+    weight: float
+    married: bool = False
+    allergies: Optional[List[str]] = None
+    contact_details: Dict[str, str]
 
-# Function to insert patient data - prints patient info and success message
+
 def insert_patient_data(patient: Patient):
     print(patient.name)
     print(patient.age)
+    print(patient.allergies)
     print("Patient data inserted successfully")
 
-# Function to update patient data - prints patient info and success message
+
 def update_patient_data(patient: Patient):
     print(patient.name)
     print(patient.age)
     print("Patient data updated successfully")
 
-# Sample patient data as a dictionary
+
+# ✅ Clean input (correct data types)
 patient_info = {
     "name": "Shubham Madane",
-    "age": 25
+    "email": "shubhammadane003@gmail.com",
+    "age": 25,
+    "weight": 84.5,
+    "married": False,
+        # optional but added
+    "contact_details": {
+        "email": "shubhammadane003@gmail.com",
+        "phone": "8055113546"
+    }
 }
 
-# Create a Patient instance by unpacking the dictionary (validates data types)
+
 patient1 = Patient(**patient_info)
 
-# Call insert function with the patient instance
 insert_patient_data(patient1)
-
-# Call update function with the patient instance
 update_patient_data(patient1)
